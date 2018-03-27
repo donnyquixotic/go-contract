@@ -9,6 +9,7 @@ contract GoGame {
     uint public komi = 6;
     bool start = false;
     bool finish = false;
+    uint8[18][18] goban;
 
     struct Board {
         uint blackStoneCount;
@@ -19,14 +20,25 @@ contract GoGame {
 
     Board public board;
 
+    function  getTerritoryValue(uint8 x, uint8 y) constant public returns (uint8) {
+        return goban[x][y];
+    }
+
+    function placeStone( uint8 x, uint8 y){
+        if (msg.sender == black){
+            goban[x][y] = 1;
+        }else{
+            goban[x][y] = 2;
+        }
+    }
+
     function GoGame() public {
         //assign playerOne to contract sender's address
         black = msg.sender;
     }
 
-    function enter() public payable {
-        //ether sent validation wei default
-        require(msg.value > wager);
+    function enter() public{
+        /*require(msg.value > wager);*/
         white = msg.sender;
     }
 
